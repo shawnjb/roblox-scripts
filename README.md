@@ -11,3 +11,9 @@ loadstring(game:HttpGet('https://raw.githubusercontent.com/shawnjb/roblox-script
 ```lua
 loadstring(game:HttpGet('https://raw.githubusercontent.com/shawnjb/roblox-scripts/refs/heads/master/aim-assistant.luau'))()
 ```
+
+## Infinite Yield (Custom)
+
+```lua
+loadstring(game:HttpGet('https://raw.githubusercontent.com/shawnjb/roblox-scripts/refs/heads/master/infinite-yield.luau'))()
+```
