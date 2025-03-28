@@ -2,9 +2,6 @@
 --!nolint
 
 local env = type(getgenv) == 'function' and getgenv() or getfenv()
-
---- Closes an existing aim assistant instance. This function may not be available if the script has not been loaded previously.
---- @type function
 local stop_aim_assistant = rawget(env, 'stop_aim_assistant')
 
 if type(stop_aim_assistant) == 'function' then
@@ -12,9 +9,6 @@ if type(stop_aim_assistant) == 'function' then
 end
 
 assert(type(env) == 'table', 'aim-assistant.lua: failed to get environment')
-
---- Appends a new value to the given table.
---- @type function
 local insert = rawget(table, 'insert')
 
 assert(type(insert) == 'function', 'aim-assistant.lua: failed to get insert')
@@ -822,9 +816,6 @@ local nearest_screenpoint
 local last_time = 0
 local frame_rate = 60
 local frame_delta = 1 / frame_rate
-
---- Moves the mouse relative to its current position.
---- @type function
 local mousemoverel = env.mousemoverel
 
 connect(rbxchildwait(ui_ffacontroller, 'ImageButton').MouseButton1Up, function()
