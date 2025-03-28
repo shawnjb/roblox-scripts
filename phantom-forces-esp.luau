@@ -36,7 +36,7 @@ connect(workspace:GetPropertyChangedSignal('CurrentCamera'), function()
 end)
 
 local red, green = Color3.fromRGB(255, 37, 40), Color3.fromRGB(38, 255, 99)
-local beams = setmetatable({}, {__mode = "v"})
+local beams = setmetatable({}, { __mode = 'v' })
 local casting = {}
 local highlights = {}
 local characters = setmetatable({}, { __mode = 'v' })
@@ -48,10 +48,10 @@ ui.ResetOnSpawn = false
 ui.Parent = coregui
 table.insert(instances, ui)
 
-local arrow_img = Instance.new("ImageLabel")
-arrow_img.Name = "arrow_img"
+local arrow_img = Instance.new('ImageLabel')
+arrow_img.Name = 'arrow_img'
 arrow_img.AnchorPoint = Vector2.new(0.5, 0.5)
-arrow_img.Image = "rbxassetid://138007024966757"
+arrow_img.Image = 'rbxassetid://138007024966757'
 arrow_img.BackgroundTransparency = 1
 arrow_img.Position = UDim2.new(0.5, 0, 0.5, 0)
 arrow_img.BorderColor3 = Color3.new()
@@ -91,12 +91,12 @@ local phantoms = Color3.fromRGB(155, 182, 255)
 
 local suit_ghosts = {
 	['rbxassetid://5558971297'] = true,
-	['rbxassetid://5614184140'] = true
+	['rbxassetid://5614184140'] = true,
 }
 
 local suit_phantoms = {
 	['rbxassetid://5614184106'] = true,
-	['rbxassetid://5558971356'] = true
+	['rbxassetid://5558971356'] = true,
 }
 
 local sleeves
@@ -132,18 +132,18 @@ connect(runtime.RenderStepped, function()
 			end
 			beams[root] = nil
 		end
-	end	
+	end
 
 	cameraPart.CFrame = camera.CFrame - Vector3.new(0, 2, 0)
 
 	local current_time = tick()
-    if current_time - last_time >= frame_time then
-        last_time = current_time
+	if current_time - last_time >= frame_time then
+		last_time = current_time
 
 		if typeof(sleeves) ~= 'Instance' or not sleeves:IsDescendantOf(camera) then
 			sleeves = camera:FindFirstChild('Sleeves', true)
 		end
-	
+
 		local myTeam
 		if sleeves then
 			local texture = sleeves:FindFirstChildWhichIsA('Texture', true)
@@ -155,33 +155,33 @@ connect(runtime.RenderStepped, function()
 				end
 			end
 		end
-	
+
 		local closestRoot = nil
 		local closestDistance = math.huge
 		local myPosition = camera.CFrame.Position
-	
+
 		for _, root in pairs(roots:GetChildren()) do
 			if root:IsA('BasePart') then
 				root.Transparency = 0
-	
+
 				local enable_hl = true
 				local highlight = highlights[root]
 				if not highlight then
 					highlight = getHighlight()
 					highlights[root] = highlight
 				end
-	
+
 				highlight.Adornee = characters[root] or root
 				highlight.Parent = ui
-	
+
 				for r, model in pairs(characters) do
 					if not model or (not model:IsDescendantOf(workspace)) then
 						highlight.Adornee = r
 						characters[r] = nil
 					end
 				end
-	
-				if not characters[root] and (not casting[root]) then
+
+				if not characters[root] and not casting[root] then
 					local rayOrigin = root.Position + Vector3.new(0, 3, 0)
 					local rayDirection = Vector3.new(0, -6, 0)
 					local raycastParams = RaycastParams.new()
@@ -198,7 +198,7 @@ connect(runtime.RenderStepped, function()
 						end
 					end
 				end
-	
+
 				local character = characters[root]
 				local theirTeam
 				if character then
@@ -232,7 +232,7 @@ connect(runtime.RenderStepped, function()
 					highlight.FillColor = green
 					highlight.OutlineColor = green
 				end
-	
+
 				local beam = beams[root]
 				if not beam then
 					local attachment0 = Instance.new('Attachment')
@@ -259,27 +259,27 @@ connect(runtime.RenderStepped, function()
 				beam.Enabled = (not isRootBlocked(root)) and (myTeam and theirTeam and (myTeam ~= theirTeam))
 			end
 		end
-	
+
 		if type(myTeam) == 'string' and typeof(closestRoot) == 'Instance' and closestRoot:IsA('BasePart') then
 			local rootPosition = closestRoot.Position
 			local flatCFrame = CFrame.lookAt(myPosition, myPosition + camera.CFrame.LookVector * Vector3.new(1, 0, 1))
 			local travel = flatCFrame:Inverse() * rootPosition
-		
+
 			local rot = math.atan2(travel.Z, travel.X)
 			arrow_img.Rotation = math.deg(rot) + 90
-		
+
 			local minSize, maxSize = 20, 80
 			local minDist, maxDist = 10, 300
-		
+
 			local scale = math.clamp(1 - ((closestDistance - minDist) / (maxDist - minDist)), 0, 1)
 			local newSize = minSize + (maxSize - minSize) * scale
-		
+
 			arrow_img.Size = UDim2.new(0, newSize, 0, newSize)
-	
-			local redIntensity = 1 
+
+			local redIntensity = 1
 			local greenBlue = math.clamp(1 - scale, 0, 1)
-	
-			arrow_img.ImageColor3 = Color3.new(redIntensity, greenBlue, greenBlue) 
+
+			arrow_img.ImageColor3 = Color3.new(redIntensity, greenBlue, greenBlue)
 			arrow_img.Visible = true
 		else
 			arrow_img.Visible = false
@@ -310,27 +310,27 @@ spawn(function()
 			end
 		end
 
-		wait(.1)
+		wait(0.1)
 	end
 end)
 
 local function onExit()
 	stop_loops = true
-	
+
 	for _, connection in ipairs(connections) do
 		if typeof(connection) == 'RBXScriptConnection' then
 			connection:Disconnect()
 		end
 	end
 	table.clear(connections)
-	
+
 	for _, instance in ipairs(instances) do
 		if typeof(instance) == 'Instance' then
 			instance:Destroy()
 		end
 	end
 	table.clear(instances)
-	
+
 	highlights = {}
 	beams = {}
 	casting = {}
