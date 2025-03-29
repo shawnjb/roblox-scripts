@@ -41,7 +41,7 @@ for _, service in ipairs({
 	'TextChatService',
 	'CaptureService',
 	'VoiceChatService',
-	}) do
+}) do
 	fenv[service] = cloneref(game:GetService(service))
 end
 
@@ -10461,10 +10461,10 @@ function onInputBegan(input, gameProcessed)
 				if
 					(
 						input.UserInputType == Enum.UserInputType.Keyboard
-							and v.KEY:lower() == tostring(input.KeyCode):lower()
+						and v.KEY:lower() == tostring(input.KeyCode):lower()
 					)
-						or (input.UserInputType == Enum.UserInputType.MouseButton1 and v.KEY:lower() == 'leftclick')
-						or (input.UserInputType == Enum.UserInputType.MouseButton2 and v.KEY:lower() == 'rightclick')
+					or (input.UserInputType == Enum.UserInputType.MouseButton1 and v.KEY:lower() == 'leftclick')
+					or (input.UserInputType == Enum.UserInputType.MouseButton2 and v.KEY:lower() == 'rightclick')
 				then
 					if v.TOGGLE then
 						local isOn = toggleOn[v] == true
@@ -10490,10 +10490,10 @@ function onInputEnded(input, gameProcessed)
 				if
 					(
 						input.UserInputType == Enum.UserInputType.Keyboard
-							and v.KEY:lower() == tostring(input.KeyCode):lower()
+						and v.KEY:lower() == tostring(input.KeyCode):lower()
 					)
-						or (input.UserInputType == Enum.UserInputType.MouseButton1 and v.KEY:lower() == 'leftclick')
-						or (input.UserInputType == Enum.UserInputType.MouseButton2 and v.KEY:lower() == 'rightclick')
+					or (input.UserInputType == Enum.UserInputType.MouseButton1 and v.KEY:lower() == 'leftclick')
+					or (input.UserInputType == Enum.UserInputType.MouseButton2 and v.KEY:lower() == 'rightclick')
 				then
 					execCmd(v.COMMAND, lp)
 				end
@@ -11437,16 +11437,16 @@ function sFLY(vfly)
 					if (CONTROL.L + CONTROL.R) ~= 0 or (CONTROL.F + CONTROL.B) ~= 0 or (CONTROL.Q + CONTROL.E) ~= 0 then
 						BV.Velocity = (
 							(camera.CFrame.LookVector * (CONTROL.F + CONTROL.B))
-								+ (
-									(
-										camera.CoordinateFrame
-										* CFrame.new(
-											CONTROL.L + CONTROL.R,
-											(CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2,
-											0
-										).Position
-									) - camera.CoordinateFrame.p
-								)
+							+ (
+								(
+									camera.CoordinateFrame
+									* CFrame.new(
+										CONTROL.L + CONTROL.R,
+										(CONTROL.F + CONTROL.B + CONTROL.Q + CONTROL.E) * 0.2,
+										0
+									).Position
+								) - camera.CoordinateFrame.p
+							)
 						) * SPEED
 						lCONTROL = { F = CONTROL.F, B = CONTROL.B, L = CONTROL.L, R = CONTROL.R }
 					elseif
@@ -11457,16 +11457,16 @@ function sFLY(vfly)
 					then
 						BV.Velocity = (
 							(camera.CFrame.LookVector * (lCONTROL.F + lCONTROL.B))
-								+ (
-									(
-										camera.CoordinateFrame
-										* CFrame.new(
-											lCONTROL.L + lCONTROL.R,
-											(lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2,
-											0
-										).Position
-									) - camera.CoordinateFrame.p
-								)
+							+ (
+								(
+									camera.CoordinateFrame
+									* CFrame.new(
+										lCONTROL.L + lCONTROL.R,
+										(lCONTROL.F + lCONTROL.B + CONTROL.Q + CONTROL.E) * 0.2,
+										0
+									).Position
+								) - camera.CoordinateFrame.p
+							)
 						) * SPEED
 					else
 						BV.Velocity = Vector3.new(0, 0, 0)
@@ -11625,11 +11625,11 @@ local mobilefly = function(speaker, vfly)
 			end
 			if direction.Z > 0 then
 				bv.Velocity = bv.Velocity
-				- camera.CFrame.LookVector * (direction.Z * ((vfly and vehicleflyspeed or iyflyspeed) * 50))
+					- camera.CFrame.LookVector * (direction.Z * ((vfly and vehicleflyspeed or iyflyspeed) * 50))
 			end
 			if direction.Z < 0 then
 				bv.Velocity = bv.Velocity
-				- camera.CFrame.LookVector * (direction.Z * ((vfly and vehicleflyspeed or iyflyspeed) * 50))
+					- camera.CFrame.LookVector * (direction.Z * ((vfly and vehicleflyspeed or iyflyspeed) * 50))
 			end
 		else
 			if typeof(mfly1) == 'RBXScriptConnection' and mfly1.Connected then
@@ -11832,7 +11832,7 @@ commands:new('cframefly', {
 
 			local objectSpaceVelocity =
 				CFrame.new(cameraPosition, Vector3.new(headPosition.X, cameraPosition.Y, headPosition.Z))
-				:VectorToObjectSpace(moveDirection)
+					:VectorToObjectSpace(moveDirection)
 			Head.CFrame = CFrame.new(headPosition) * (cameraCFrame - cameraPosition) * CFrame.new(objectSpaceVelocity)
 		end)
 	end,
@@ -14717,9 +14717,9 @@ commands:new('nolimbs', {
 					v:IsA('BasePart')
 					and (
 						v.Name == 'RightUpperLeg'
-							or v.Name == 'LeftUpperLeg'
-							or v.Name == 'RightUpperArm'
-							or v.Name == 'LeftUpperArm'
+						or v.Name == 'LeftUpperLeg'
+						or v.Name == 'RightUpperArm'
+						or v.Name == 'LeftUpperArm'
 					)
 				then
 					v:Destroy()
