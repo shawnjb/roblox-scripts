@@ -13575,7 +13575,7 @@ commands:new('partpath', {
 })
 
 commands:new('antiafk', {
-	usage = 'antiafk [nonotify]',
+	usage = 'antiafk',
 	aliases = { 'antiidle' },
 	description = 'Disables the idle timeout by simulating user activity.',
 	callback = function(args, speaker)
@@ -14441,7 +14441,7 @@ commands:new('orbit', {
 })
 
 commands:new('unorbit', {
-	usage = 'unorbit [nonotify]',
+	usage = 'unorbit',
 	description = 'Stops orbiting the player.',
 	callback = function(args, speaker)
 		if orbit1 then
@@ -15388,31 +15388,8 @@ commands:new('tpposition', {
 			return
 		end
 
-		local rootpart = getRoot(speaker)
-		if typeof(rootpart) == 'Instance' and rootpart:IsA('BasePart') then
-			rootpart.CFrame = CFrame.new(Vector3.new(x, y, z))
-		end
-	end,
-})
-
-commands:new('tweentpposition', {
-	usage = 'tweentpposition / ttppos [x] [y] [z]',
-	aliases = { 'ttppos' },
-	description = 'Teleports the player to the specified coordinates using a tween animation.',
-	callback = function(args, speaker)
-		if #args < 3 then
-			return
-		end
-		local tpX, tpY, tpZ =
-			tonumber(args[1]:gsub(',', '')), tonumber(args[2]:gsub(',', '')), tonumber(args[3]:gsub(',', ''))
-
-		local char = lp_character
-		if char and getRoot(char) then
-			TweenService:Create(
-				getRoot(lp_character),
-				TweenInfo.new(tweenSpeed, Enum.EasingStyle.Linear),
-				{ CFrame = CFrame.new(tpX, tpY, tpZ) }
-			):Play()
+		if lp_rootpart then
+			lp_rootpart.CFrame = CFrame.new(Vector3.new(x, y, z))
 		end
 	end,
 })
@@ -15432,32 +15409,9 @@ commands:new('offset', {
 			return
 		end
 
-		local rootpart = getRoot(speaker)
-		if typeof(rootpart) == 'Instance' and rootpart:IsA('BasePart') then
-			local currentPos = rootpart.Position
-			rootpart.CFrame = CFrame.new(currentPos + Vector3.new(x, y, z))
-		end
-	end,
-})
-
-commands:new('tweenoffset', {
-	usage = 'tweenoffset / toffset [x] [y] [z]',
-	aliases = { 'toffset' },
-	description = "Tweens the player's character to the specified offset position.",
-	callback = function(args, speaker)
-		if #args < 3 then
-			return
-		end
-
-		local tpX, tpY, tpZ = tonumber(args[1]), tonumber(args[2]), tonumber(args[3])
-		local char = lp_character
-
-		if char and getRoot(char) then
-			TweenService:Create(
-				getRoot(lp_character),
-				TweenInfo.new(tweenSpeed, Enum.EasingStyle.Linear),
-				{ CFrame = CFrame.new(tpX, tpY, tpZ) }
-			):Play()
+		if lp_rootpart then
+			local currentPos = lp_rootpart.Position
+			lp_rootpart.CFrame = CFrame.new(currentPos + Vector3.new(x, y, z))
 		end
 	end,
 })
@@ -18910,7 +18864,7 @@ local tooltipSize = Tooltip.Size
 local tooltipTitleTextSize = Title_3.TextSize
 local tooltipDescTextSize = Description.TextSize
 
-Scale:GetPropertyChangedSignal('Scale'):Connect(function()
+function scaleUpdate()
 	local scale = Scale.Scale
 
 	Tooltip.Size = UDim2.fromOffset(tooltipSize.X.Offset * scale, tooltipSize.Y.Offset * scale)
@@ -18924,7 +18878,10 @@ Scale:GetPropertyChangedSignal('Scale'):Connect(function()
 			v.Visible = true
 		end
 	end
-end)
+end
+
+pcall(scaleUpdate)
+Scale:GetPropertyChangedSignal('Scale'):Connect(scaleUpdate)
 
 updateColors(currentShade1, shade1)
 updateColors(currentShade2, shade2)
